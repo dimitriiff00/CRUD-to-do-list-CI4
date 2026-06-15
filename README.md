@@ -11,18 +11,17 @@ Projeto de lista de tarefas desenvolvido com CodeIgniter 4.
 ## Instalação
 
 1. Clone o repositório:
-`ash
+`
 git clone https://github.com/dimitriiff00/CRUD-to-do-list-CI4.git
 cd CRUD-to-do-list-CI4
 `
 
 2. Instale as dependências:
-`ash
-composer install
+`composer install
 `
 
 3. Configure o ambiente — copie o arquivo de exemplo e edite com suas credenciais:
-`ash
+`
 cp env .env
 `
 
@@ -36,17 +35,16 @@ database.default.username = root
 database.default.password =
 
 5. Rode as migrations:
-`ash
+`
 php spark migrate
 `
 
 6. Rode o seeder para criar o usuário administrador:
-`ash
-php spark db:seed UsuarioSeeder
+`php spark db:seed UsuarioSeeder
 `
 
 7. Inicie o servidor:
-`ash
+`
 php spark serve
 `
 
