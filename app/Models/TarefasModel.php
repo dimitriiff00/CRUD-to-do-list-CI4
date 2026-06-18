@@ -3,21 +3,21 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use PhpParser\Node\Stmt\TryCatch;
 
-class UsuariosModel extends Model
+class TarefasModel extends Model
 {
-    protected $table            = 'usuarios';
+    protected $table            = 'tarefas';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'nome',
-        'sobrenome',
-        'usuario',
-        'email',
-        'senha'
+        'titulo',
+        'detalhes',
+        'status',
+        'prazo'
     ];
 
     protected bool $allowEmptyInserts = false;
@@ -34,7 +34,9 @@ class UsuariosModel extends Model
     protected $deletedField  = 'deleted_at';
 
     // Validation
-    protected $validationRules      = [];
+    protected $validationRules = [
+        'titulo' => 'required|min_length[1]|max_length[200]',
+    ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
@@ -51,16 +53,38 @@ class UsuariosModel extends Model
     protected $afterDelete    = [];
 
 
-    public function buscarUsuario($usuario)    
+    public function pesquisarTarefas()
     {
-        try
-        {
-            return $this->where('usuario', $usuario)->first();
-        }catch(\Exception $e )
-        {
+        try {
+            return $this->findAll();
+        } catch (\Exception $e) {
             log_message('error', $e->getMessage());
+            echo $e->getMessage();
             return null;
+
         }
-        
+    }
+
+    public function inserirTarefa($dados)
+    {
+        try {
+            $id = $this->insert($dados);
+
+            if ($id === false) {
+                return $this->errors();
+            }
+
+            return [
+                'status' => true,
+                'id' => $id
+            ];
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+
+            return [
+                'status' => false,
+                'mensagem' => $e->getMessage()
+            ];
+        }
     }
 }
